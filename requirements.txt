@@ -3,3 +3,4 @@ netaddr
 wireless
 SpoofMAC
 tqdm
+packaging
