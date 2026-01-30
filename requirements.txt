@@ -1,6 +1,0 @@
-netifaces
-netaddr
-wireless
-SpoofMAC
-tqdm
-packaging
