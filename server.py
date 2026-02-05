@@ -5,54 +5,73 @@ app = Flask(__name__)
 
 AUTHORIZED_IPS = set()
 
-# --- Apple captive check ---
+# ----------------------------
+# Apple Captive Network Assistant
+# ----------------------------
 @app.route("/hotspot-detect.html")
 def apple_probe():
-    # Force CNA to open portal
     return redirect("/portal", code=302)
 
-# --- Android / Windows fallback ---
+# ----------------------------
+# Android / Windows checks
+# ----------------------------
 @app.route("/generate_204")
 @app.route("/ncsi.txt")
 def other_probe():
     return redirect("/portal", code=302)
 
-# --- Portal page ---
+# ----------------------------
+# Main portal
+# ----------------------------
 @app.route("/portal", methods=["GET", "POST"])
 def portal():
     client_ip = request.remote_addr
 
     if request.method == "POST":
-        authorize(client_ip)
+        authorize_ip(client_ip)
 
-        # Apple expects literal "Success"
+        # Apple expects EXACT "Success"
         resp = make_response("Success", 200)
         resp.headers["Content-Type"] = "text/plain"
         return resp
 
     return f"""
-    <html>
-    <head>
-      <meta name="viewport" content="width=device-width">
-      <title>Free Wi-Fi</title>
-    </head>
-    <body>
-      <h2>Free Wi-Fi Access</h2>
-      <p>You must accept to continue.</p>
-      <form method="POST">
-        <button type="submit">Accept & Connect</button>
-      </form>
-    </body>
-    </html>
-    """
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width">
+<title>Free Wi-Fi</title>
+<style>
+body {{
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 40px;
+}}
+button {{
+  font-size: 18px;
+  padding: 12px 24px;
+}}
+</style>
+</head>
+<body>
+  <h2>Free Wi-Fi Access</h2>
+  <p>Tap accept to connect.</p>
+  <form method="POST">
+    <button type="submit">Accept & Connect</button>
+  </form>
+</body>
+</html>
+"""
 
-def authorize(ip):
+# ----------------------------
+# Firewall authorization
+# ----------------------------
+def authorize_ip(ip):
     if ip in AUTHORIZED_IPS:
         return
 
     AUTHORIZED_IPS.add(ip)
 
-    # Allow internet for this IP
     subprocess.call([
         "iptables", "-I", "FORWARD", "-s", ip, "-j", "ACCEPT"
     ])
@@ -62,5 +81,8 @@ def authorize(ip):
 
     print("Authorized:", ip)
 
+# ----------------------------
+# Start server
+# ----------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80)
