@@ -13,8 +13,3 @@ jobs:
     steps:
       - name: Build iOS Action
         uses: sparkfabrik/ios-build-action@v2.3.2
-
-          pip install -r requirements.txt
-
-      - name: Run menu generator
-        run: python server.py
