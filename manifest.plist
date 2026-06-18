@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>items</key>
+    <array>
+        <dict>
+            <key>assets</key>
+            <array>
+                <dict>
+                    <key>kind</key>
+                    <string>software-package</string>
+                    <key>url</key>
+                    <string>https://drive.usercontent.google.com/download?id=1jUeyuKU9YUhoBFHpmRQB2JNBOvoDqfpV&export=download&authuser=0&confirm=t&uuid=9db0b1c1-4d39-4a0d-af71-69667405c0d6&at=AAINaILmnKtLk_-8SDj50N-WVtMi:1781800772903</string>
+                </dict>
+            </array>
+            <key>metadata</key>
+            <dict>
+                <key>bundle-identifier</key>
+                <string>com.zello.client.main</string>
+                <key>bundle-version</key>
+                <string>7.10.1</string>
+                <key>kind</key>
+                <string>software</string>
+                <key>title</key>
+                <string>Zello</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
